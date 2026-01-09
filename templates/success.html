@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>報名成功</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .btn { display: inline-block; padding: 12px 30px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 10px; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background-color: #45a049; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 style="color: #4CAF50;">✅ 報名成功！</h1>
+        <p>親愛的 {{ name }}，您已完成 <strong>{{ activity_name }}</strong> 的報名。</p>
+        <br>
+        <a href="{{ url_for('index') }}" class="btn">回系統首頁</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function validateForm() {
+            var age = document.getElementById("age").value;
+            if (age < 0) { alert("年齡不得為負數！"); return false; }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>報名：{{ activity_name }}</h1>
+        <form method="POST" onsubmit="return validateForm()">
+            <input type="text" name="name" placeholder="姓名" required>
+            <input type="text" name="student_id" placeholder="學號" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="number" id="age" name="age" placeholder="年齡" min="0" required>
+            <p style="text-align: left; margin-left: 5%;">選擇場次：</p>
+            <select name="session" required>
+                {% for session, remaining in sessions_remaining.items() %}
+                    <option value="{{ session }}" {% if remaining <= 0 %}disabled class="session-full"{% endif %}>
+                        {{ session }} (剩餘: {{ remaining }})
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn" style="width: 90%;">確認報名</button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">回首頁</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>管理員登入</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 400px; margin-top: 150px;">
+        <h1 style="margin-bottom: 30px;">管理員登入</h1>
+        {% if error %}<p style="color: #d32f2f; font-weight: bold;">{{ error }}</p>{% endif %}
+        <form method="POST">
+            <input type="text" name="username" placeholder="請輸入帳號" required style="width: 100%; box-sizing: border-box;">
+            <input type="password" name="password" placeholder="請輸入密碼" required style="width: 100%; box-sizing: border-box;">
+            <button type="submit" class="btn" style="width: 100%; margin: 20px 0;">立即登入</button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary" style="width: 100%; box-sizing: border-box;">返回首頁</a>
+    </div>
+</body>
+</html>

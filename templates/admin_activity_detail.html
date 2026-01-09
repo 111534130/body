@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>管理活動：{{ activity_name }}</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 { color: #333; margin-bottom: 20px; }
+
+        .stats-card {
+            background-color: #fcfcfc;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stats-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reg-card {
+            border: 2px solid #4CAF50;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            transition: 0.2s;
+            position: relative; /* 為了讓按鈕定位 */
+        }
+
+        .reg-card:hover {
+            background-color: #f9fff9;
+        }
+
+        .reg-info {
+            margin: 5px 0;
+            color: #444;
+        }
+
+        /* 按鈕基本樣式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #607d8b;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #455a64;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background-color: #2196F3;
+            margin-bottom: 20px;
+        }
+
+        /* 專門給補發信件的小按鈕樣式 */
+        .btn-resend {
+            background-color: #009688;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            border-radius: 6px;
+            margin-top: 10px;
+            float: right; /* 靠右對齊 */
+        }
+
+        .btn-resend:hover {
+            background-color: #00796b;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+
+        /* 清除浮動防止排版崩壞 */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>管理活動：{{ activity_name }}</h1>
+
+    <a href="{{ url_for('edit_activity', activity_name=activity_name) }}" class="btn btn-edit">修改活動訊息</a>
+
+    <div class="stats-card">
+        <div class="stats-title">📊 年齡層統計數據</div>
+        <p>
+            19-30歲：<strong>{{ age_stats['19-30'] }}</strong> 人 | 
+            31-50歲：<strong>{{ age_stats['31-50'] }}</strong> 人 | 
+            51歲以上：<strong>{{ age_stats['51+'] }}</strong> 人
+        </p>
+    </div>
+
+    <h3>📋 報名名單清單</h3>
+
+    {% if registrations %}
+        {% for r in registrations %}
+        <div class="reg-card clearfix">
+            <div class="reg-info"><strong>(學號：{{ r.student_id }})</strong></div>
+            <div class="reg-info"><strong>姓名：</strong> {{ r.name }}</div>
+            <div class="reg-info"><strong>場次：</strong> {{ r.session }} | <strong>Email:</strong> {{ r.email }}</div>
+            <div class="reg-info"><strong>年齡：</strong> {{ r.age }}</div>
+            
+            <form action="{{ url_for('admin_resend_email') }}" method="POST">
+                <input type="hidden" name="name" value="{{ r.name }}">
+                <input type="hidden" name="email" value="{{ r.email }}">
+                <input type="hidden" name="activity_name" value="{{ activity_name }}">
+                <input type="hidden" name="session" value="{{ r.session }}">
+                <button type="submit" class="btn btn-resend" onclick="return confirm('確定補發通知信給 {{ r.name }} 嗎？')">
+                    📧 補發通知
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="color: #999; padding: 20px;">目前尚無報名資料。</p>
+    {% endif %}
+
+    <hr>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="btn">返回管理主頁</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+body { font-family: 'Microsoft JhengHei', sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+.container { max-width: 850px; margin: 80px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+
+/* 跑馬燈 */
+.main-marquee { background: #333; color: #fff; padding: 12px 0; font-size: 1.2em; font-weight: bold; position: fixed; top: 0; width: 100%; z-index: 1000; }
+
+/* 輸入框放大與外框加粗 */
+input, select, textarea { 
+    width: 90%; padding: 15px; margin: 10px 0; 
+    border: 2px solid #333; border-radius: 8px; font-size: 18px; box-sizing: border-box;
+}
+
+/* 統一按鈕：所有按鈕置中、間距分開 */
+.btn { 
+    display: inline-block; padding: 12px 30px; 
+    background-color: #4CAF50; color: white !important; 
+    text-decoration: none !important; border-radius: 8px; 
+    border: none; cursor: pointer; font-size: 18px; font-weight: bold;
+    margin: 10px; transition: 0.3s;
+}
+.btn:hover { background-color: #45a049; }
+.btn-secondary { background-color: #78909c !important; } /* 返回/登出專用灰色 */
+
+/* 活動卡片 */
+.activity-card { border: 1px solid #ddd; padding: 25px; margin-bottom: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+.full-activity { border: 2px solid #ffcdd2; background-color: #fffbfa; }
+.btn-full { background-color: #ef5350 !important; cursor: not-allowed; }
+
+/* 查詢結果框：置中、文字靠左 */
+.result-box { margin: 20px auto; width: 90%; border: 2px solid #4CAF50; border-radius: 10px; padding: 20px; text-align: left; background: #f9f9f9; }

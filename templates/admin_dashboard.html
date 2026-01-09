@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>管理員儀表板</h1>
+        
+        <div style="margin-bottom: 30px;">
+            <a href="{{ url_for('add_activity') }}" class="btn">＋ 新增活動</a>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">登出返回首頁</a>
+        </div>
+
+        <div style="background:#fff3e0; padding:20px; border-radius:10px; border:1px solid #ffe0b2; margin-bottom:30px;">
+            <h3>📢 修改跑馬燈公告</h3>
+            <form action="{{ url_for('update_announcement') }}" method="POST">
+                <textarea name="announcement_content" rows="2">{{ announcement }}</textarea>
+                <button type="submit" class="btn">更新公告</button>
+            </form>
+        </div>
+
+        <h2>目前活動列表</h2>
+        {% for a in activities %}
+        <div class="activity-card">
+            <div>
+                <strong>{{ a.name }}</strong><br>
+                {{ a.date }} | {{ a.location }}
+            </div>
+            <div style="display:flex;">
+                <a href="{{ url_for('admin_activity_detail', activity_name=a.name) }}" class="btn">統計數據</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

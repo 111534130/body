@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查詢報名紀錄 - 活動報名系統</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --primary-hover: #45a049;
+            --danger-color: #e74c3c;
+            --secondary-color: #607d8b;
+            --bg-color: #f8f9fa;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .btn-search { background-color: var(--primary-color); }
+        .btn-search:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+
+        .btn-home { background-color: var(--primary-color); }
+        .btn-home:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+
+        .btn-cancel { background-color: var(--danger-color); font-size: 14px; padding: 8px 20px; }
+        .btn-cancel:hover { background-color: #c0392b; transform: scale(1.05); }
+
+        .result-card {
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .result-card p {
+            margin: 10px 0;
+            color: #444;
+            font-size: 16px;
+        }
+
+        .no-result {
+            margin-top: 20px;
+            color: #888;
+            padding: 20px;
+            border: 1px dashed #ccc;
+            border-radius: 10px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>查詢報名紀錄</h1>
+
+    <div class="search-box">
+        <form action="{{ url_for('check') }}" method="POST">
+            <input type="text" name="student_id" placeholder="請輸入學號" required>
+            <br>
+            <button type="submit" class="btn btn-search">立即查詢</button>
+        </form>
+    </div>
+
+    {% if results %}
+        {% for r in results %}
+        <div class="result-card">
+            <p><strong>活動：</strong> {{ r.activity_name }}</p>
+            <p><strong>姓名：</strong> {{ r.name }} | <strong>場次：</strong> {{ r.session }}</p>
+            <p><strong>學號：</strong> {{ r.student_id }}</p>
+            
+            <form action="{{ url_for('cancel') }}" method="POST" onsubmit="return confirm('確定要取消此報名嗎？');">
+                <input type="hidden" name="student_id" value="{{ r.student_id }}">
+                <input type="hidden" name="activity_name" value="{{ r.activity_name }}">
+                <button type="submit" class="btn btn-cancel">取消報名</button>
+            </form>
+        </div>
+        {% endfor %}
+    {% else %}
+        {% if request.method == 'POST' %}
+        <div class="no-result">
+            找不到該學號的報名資料，請確認輸入是否正確。
+        </div>
+        {% endif %}
+    {% endif %}
+
+    <hr>
+
+    <div style="text-align: center;">
+        <a href="{{ url_for('index') }}" class="btn btn-home">回系統首頁</a>
+    </div>
+</div>
+
+</body>
+</html>
